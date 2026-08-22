@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "cadre": {
+      "command": "/usr/bin/env",
+      "args": ["node", "${CLAUDE_PLUGIN_ROOT}/server/cadre-bridge.mjs"]
+    }
+  }
+}

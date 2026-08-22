@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "cadre",
+  "displayName": "Cadre Video Editor",
+  "version": "1.0.0",
+  "description": "Record and edit Cadre screen recordings through its local MCP API.",
+  "author": {
+    "name": "Cadre",
+    "email": "jack@cadre.cam",
+    "url": "https://cadre.cam/about.html"
+  },
+  "homepage": "https://cadre.cam/agents.html",
+  "repository": "https://github.com/ArthurBrioche/cadre-video-editor-plugin",
+  "license": "MIT",
+  "keywords": ["cadre", "screen-recording", "video-editing", "captions", "mcp", "claude"]
+}
