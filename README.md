@@ -2,7 +2,7 @@
 
 [Cadre](https://cadre.cam/) is a local screen recorder and non-destructive video editor for Apple Silicon Macs. This repository is the public, standalone reference source for Cadre's token-free Claude plugin: one editing skill and a small stdio bridge to Cadre's loopback-only Model Context Protocol (MCP) server.
 
-Public plugin v1.0.1 is compatible with Cadre 1.0.0-rc.18. The signed Cadre 1.0.0-rc.18 app currently published at cadre.cam contains the earlier bundled plugin v1.0.0, so its in-app **Prepare plugin** archive is not a byte-for-byte copy of this independently versioned repository.
+The app and this standalone plugin have independent release histories. Standalone v1.0.1 is the artifact pinned in Cadre 1.0.0-rc.18's 54-tool evidence; v1.0.2 updates the editing skill for Cadre 1.0.0-rc.20's asynchronous 57-tool Agent API. Use Cadre's live [version record](https://cadre.cam/CADRE.version) and [release notes](https://cadre.cam/release-notes.html) for the app currently published, the repository's [Releases](https://github.com/ArthurBrioche/cadre-video-editor-plugin/releases) for published standalone archives, and `.claude-plugin/plugin.json` inside an app-prepared archive for its bundled plugin version. Even when version numbers match, do not assume the app-bundled and standalone archives are byte-for-byte identical.
 
 Cadre edits and renders footage supplied or recorded by the user. It does not use a generative-media model to synthesize video, images, speech, music, or voices.
 
@@ -19,14 +19,14 @@ Recording, editing, and preview are free. An active Cadre Pro subscription is re
 
 Read the [Agent API overview](https://cadre.cam/docs/agent-api/overview.html), [complete tool reference](https://cadre.cam/docs/agent-api/tools.html), and [project-format reference](https://cadre.cam/docs/agent-api/project-format.html).
 
-Cadre also publishes a [reproducible Agent API handshake and 54-tool discovery record](https://cadre.cam/agent-api-evidence.html), including the exact signed app and plugin artifacts, sanitized raw data, the dated collector, and explicit limitations.
+Cadre also publishes a [reproducible, version-pinned Agent API handshake and 54-tool discovery record](https://cadre.cam/agent-api-evidence.html), including the exact signed app and plugin artifacts, sanitized raw data, the dated collector, and explicit limitations.
 
 ## Requirements
 
 - An Apple Silicon Mac running macOS 13 or later.
 - The current [signed and notarized Cadre app](https://cadre.cam/#download), open locally.
 - Claude Desktop, a local Cowork session, or Claude Code with permission to run a local MCP server.
-- A local Node.js runtime. Both plugin variants need Node: public standalone v1.0.1 requires a maintained Node.js 22, 24 or 26 release, while the plugin bundled in Cadre 1.0.0-rc.18 uses a legacy `PATH` lookup. The standalone launcher's check covers Homebrew, Volta, local, asdf, NVM, fnm, mise and `PATH` installations without storing a private local path in the plugin.
+- A local Node.js runtime. The standalone launcher requires a maintained Node.js 22, 24 or 26 release. Its check covers Homebrew, Volta, local, asdf, NVM, fnm, mise and `PATH` installations without storing a private local path in the plugin. App-bundled requirements belong to that Cadre release and are documented inside its prepared archive.
 
 Remote or cloud-only sessions cannot reach Cadre's `127.0.0.1` service. Organization administrators may also disable local MCP servers or personal plugins.
 
@@ -34,8 +34,9 @@ Remote or cloud-only sessions cannot reach Cadre's `127.0.0.1` service. Organiza
 
 ### App-bundled setup
 
-The supported customer path is built into Cadre. In the currently published
-Cadre 1.0.0-rc.18 app, these steps prepare its earlier bundled plugin v1.0.0:
+The supported customer path is built into Cadre. These steps prepare the
+plugin bundled with the installed Cadre release; they do not download this
+repository's standalone release:
 
 1. Open Cadre and choose **Preferences → AI Editing**.
 2. In the **Claude Cowork** card, click **Prepare plugin**.
@@ -45,11 +46,11 @@ Cadre 1.0.0-rc.18 app, these steps prepare its earlier bundled plugin v1.0.0:
 
 The Cadre-prepared archive contains no bearer token. The bridge reads Cadre's current private connection file only when a tool is called, so port and token rotation continue to work after app restarts.
 
-Cadre 1.0.0-rc.18 does not check Node.js before it reports its bundled v1.0.0 archive ready. That archive needs `node` to be visible to Claude's local MCP environment. If the legacy lookup fails, use public standalone v1.0.1 from this repository; its launcher finds common macOS installations and reports an actionable runtime error.
+Cadre 1.0.0-rc.18 did not check Node.js before it reported its historical bundled v1.0.0 archive ready. Cadre 1.0.0-rc.19 and rc.20 run their bundled v1.0.1 launcher's Node.js preflight first. If an older archive's legacy lookup fails, use the latest standalone release from this repository; its launcher finds common macOS installations and reports an actionable runtime error.
 
 ### Public standalone source
 
-For Claude Desktop or local Cowork, download `Cadre-Claude-Plugin-v1.0.1.zip` from this repository's v1.0.1 release and upload it from **Customize → Plugins**. To review or run the same source with Claude Code:
+For Claude Desktop or local Cowork, download the latest published `Cadre-Claude-Plugin-v*.zip` from this repository's [Releases](https://github.com/ArthurBrioche/cadre-video-editor-plugin/releases/latest) and upload it from **Customize → Plugins**. To review or run the current repository source with Claude Code:
 
 ```sh
 git clone https://github.com/ArthurBrioche/cadre-video-editor-plugin.git
@@ -83,7 +84,7 @@ Recording always uses Cadre's normal countdown, display highlight, and on-screen
 - A connected cloud-backed assistant can request selected transcript, interaction, or frame context and may send that context to its model provider. The provider's account settings and data policy apply.
 - Export uses the same licence gate as manual editing; the plugin does not bypass it.
 
-See Cadre's [privacy policy](https://cadre.cam/privacy.html) and [security model](https://cadre.cam/docs/agent-api/overview.html#security-posture) before connecting any assistant to sensitive footage.
+See Cadre's [privacy policy](https://cadre.cam/privacy.html) and [security model](https://cadre.cam/docs/agent-api/overview.html#4-security-posture) before connecting any assistant to sensitive footage.
 
 ## Support and responsible disclosure
 
