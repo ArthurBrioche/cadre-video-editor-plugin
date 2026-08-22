@@ -1,6 +1,8 @@
 # Cadre Video Editor for Claude
 
-[Cadre](https://cadre.cam/) is a local screen recorder and non-destructive video editor for Apple Silicon Macs. This repository is the complete, auditable source of its token-free Claude plugin: one editing skill and a small stdio bridge to Cadre's loopback-only Model Context Protocol (MCP) server.
+[Cadre](https://cadre.cam/) is a local screen recorder and non-destructive video editor for Apple Silicon Macs. This repository is the public, standalone reference source for Cadre's token-free Claude plugin: one editing skill and a small stdio bridge to Cadre's loopback-only Model Context Protocol (MCP) server.
+
+Public plugin v1.0.1 is compatible with Cadre 1.0.0-rc.18. The signed Cadre 1.0.0-rc.18 app currently published at cadre.cam contains the earlier bundled plugin v1.0.0, so its in-app **Prepare plugin** archive is not a byte-for-byte copy of this independently versioned repository.
 
 Cadre edits and renders footage supplied or recorded by the user. It does not use a generative-media model to synthesize video, images, speech, music, or voices.
 
@@ -22,13 +24,16 @@ Read the [Agent API overview](https://cadre.cam/docs/agent-api/overview.html), [
 - An Apple Silicon Mac running macOS 13 or later.
 - The current [signed and notarized Cadre app](https://cadre.cam/#download), open locally.
 - Claude Desktop, a local Cowork session, or Claude Code with permission to run a local MCP server.
-- Node.js 18 or later available as `node` on the local `PATH` so the bridge can run.
+- A local Node.js runtime. Both plugin variants need Node: public standalone v1.0.1 requires a maintained Node.js 22, 24 or 26 release, while the plugin bundled in Cadre 1.0.0-rc.18 uses a legacy `PATH` lookup. The standalone launcher's check covers Homebrew, Volta, local, asdf, NVM, fnm, mise and `PATH` installations without storing a private local path in the plugin.
 
 Remote or cloud-only sessions cannot reach Cadre's `127.0.0.1` service. Organization administrators may also disable local MCP servers or personal plugins.
 
 ## Install
 
-The supported customer path is built into Cadre:
+### App-bundled setup
+
+The supported customer path is built into Cadre. In the currently published
+Cadre 1.0.0-rc.18 app, these steps prepare its earlier bundled plugin v1.0.0:
 
 1. Open Cadre and choose **Preferences → AI Editing**.
 2. In the **Claude Cowork** card, click **Prepare plugin**.
@@ -36,9 +41,13 @@ The supported customer path is built into Cadre:
 4. In Claude, choose **Customize → Plugins**, upload the archive, and approve the local MCP server.
 5. Keep Cadre open while using the plugin.
 
-The archive contains no bearer token. The bridge reads Cadre's current private connection file only when a tool is called, so port and token rotation continue to work after app restarts.
+The Cadre-prepared archive contains no bearer token. The bridge reads Cadre's current private connection file only when a tool is called, so port and token rotation continue to work after app restarts.
 
-For source review or local Claude Code development:
+Cadre 1.0.0-rc.18 does not check Node.js before it reports its bundled v1.0.0 archive ready. That archive needs `node` to be visible to Claude's local MCP environment. If the legacy lookup fails, use public standalone v1.0.1 from this repository; its launcher finds common macOS installations and reports an actionable runtime error.
+
+### Public standalone source
+
+For Claude Desktop or local Cowork, download `Cadre-Claude-Plugin-v1.0.1.zip` from this repository's v1.0.1 release and upload it from **Customize → Plugins**. To review or run the same source with Claude Code:
 
 ```sh
 git clone https://github.com/ArthurBrioche/cadre-video-editor-plugin.git
