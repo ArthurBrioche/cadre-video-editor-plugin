@@ -104,7 +104,8 @@ back to these values unless the user asked for a restyle.
 get_app_state           # version? project open? license active? export idle?
   └─ if no project:  list_projects → open_project { path }
   └─ if the user hands you a raw video file instead of a Cadre project:
-       import_video { path }   # probes it, scaffolds a project, opens the editor
+       import_video { path } → poll Agent job to completion
+       # completed result scaffolds the project and opens the editor
   └─ if the user wants NEW footage captured:
        list_recording_sources → start_recording → (sleep) → stop_recording
        # stop_recording returns { id, path } with the editor already on it
@@ -112,6 +113,7 @@ get_timeline            # recording w/h/fps, recordingMs + outputMs, existing ed
 get_recording_context   # metadata + time-aligned speech; read before semantic edits
   └─ if transcript.available is false:
        list_caption_models → download_caption_model if needed → generate_transcript
+       # both long calls return job receipts; poll each before the next step
 get_interaction_context # cheap text-only clicks/scrolls/shortcuts/Accessibility labels
   └─ if the relevant visual state is still unclear:
        analyze_visual_context { startTime, endTime }  # local OCR, zero image tokens
@@ -124,6 +126,14 @@ map_time                # convert any timestamp the user quoted from the preview
        get_edited_frame { timeMs, maxDimension: 512 }  # zoom/style/webcam/masks/captions included
 save_project            # optional explicit checkpoint (Cadre also autosaves)
 ```
+
+`import_video`, `generate_captions`, `generate_transcript`, and
+`download_caption_model` do not hold one MCP call open. Each returns immediately
+with `{ jobId, jobToken, status:"running" }`. Preserve that exact pair, poll
+`get_agent_job_status`, and read `get_agent_job_result` only after a terminal
+status. A completed result is under `result`; a failed job carries a structured
+`error`. Use `cancel_agent_job` with the same pair only when the user wants that
+work stopped. Never guess, reuse, expose, or substitute a job token.
 
 For a terse open-ended request such as “make this look better”, treat the
 workflow as an editorial pass, not a single style call:
@@ -164,7 +174,8 @@ It restores the user's playhead after capture.
 `import_video` is the entry point whenever the user hands you a `.mp4`/`.mov`/
 `.webm`/`.mkv`/`.avi` instead of pointing you at an existing Cadre recording —
 use it in place of `open_project`, not before it. Remember the result: an
-imported video has no interaction log, so auto-zoom
+import is ready only after its Agent job reports `completed`; then the result's
+`id` and `path` identify the new open project. An imported video has no interaction log, so auto-zoom
 (`recalculate_zooms`) has nothing to analyse for it. Local visual OCR still
 works and is the right way to understand its on-screen UI before adding manual
 zooms — see the zoom recipe.
@@ -437,11 +448,12 @@ Goal: transcribe, clean up the text, and export.
 ```
 1. get_app_state → confirm license.active is true (export needs it).
 2. list_caption_models → is the model you want isDownloaded: true?
-   If not: download_caption_model { modelId: "base" }   # runs to completion;
-     larger models are hundreds of MB — warn the user it can take a while.
+   If not: download_caption_model { modelId: "base" } → preserve jobId/jobToken,
+     poll status, then read result. Larger models are hundreds of MB — warn the
+     user it can take a while.
 3. generate_captions { modelSize: "base", language: "en" }   # omit language to auto-detect
-   → returns the attached track. This can take a while; it runs to completion.
-   MODEL_NOT_DOWNLOADED here means step 2 was skipped or the id was wrong —
+   → preserve its jobId/jobToken, poll status, then read result for the attached track.
+   MODEL_NOT_DOWNLOADED in the terminal job error means step 2 was skipped or the id was wrong —
    re-check list_caption_models. BUSY means a generation is already running
    (yours or the user's) — wait and retry, don't fire a second one.
 4. list_captions → review segments.
@@ -535,15 +547,15 @@ Export notes:
 | ---------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `NO_PROJECT_OPEN`      | No project loaded.                                                        | `open_project` first (or ask the user to open one).                                                                                                                                     |
 | `EDITOR_NOT_AVAILABLE` | No editor window.                                                         | Ask the user to open a project in Cadre.                                                                                                                                                |
-| `NOT_FOUND`            | Bad entity id.                                                            | Re-`get_timeline`; the id changed or you deleted it already.                                                                                                                            |
+| `NOT_FOUND`            | Bad entity id, or unknown/expired Agent job pair.                          | Re-`get_timeline` for an entity. For a job, use the exact `jobId` + `jobToken` returned by its start call; never guess.                                                                 |
 | `INVALID_ARGS`         | e.g. `endTime <= startTime`, out-of-range value.                          | Fix the argument and retry.                                                                                                                                                             |
 | `LICENSE_REQUIRED`     | Export without a subscription.                                            | Tell the user; stop.                                                                                                                                                                    |
 | `EXPORT_IN_PROGRESS`   | Export already running.                                                   | Poll `get_export_status` or `cancel_export`.                                                                                                                                            |
 | `MODEL_NOT_DOWNLOADED` | `generate_captions` model isn't downloaded.                               | `list_caption_models` → `download_caption_model { modelId }`, then retry.                                                                                                               |
-| `BUSY`                 | A caption generation is already running.                                  | Wait, then retry — don't start a second one.                                                                                                                                            |
+| `BUSY`                 | A conflicting single-flight job is running or all Agent job slots are full. | Poll/cancel the job you own or wait; do not start duplicate imports, transcriptions, or downloads.                                                                                   |
 | `PERMISSION_REQUIRED`  | macOS hasn't granted Screen Recording / Accessibility / Input Monitoring. | Read the `hint`: it names the System Settings pane, and usually a parameter (`trackCursor: false`, `trackKeyboard: false`) that avoids needing the grant. You cannot grant it yourself. |
 | `INVALID_STATE`        | The recording isn't in a state where that call is legal.                  | `get_recording_status`, then act on the real state. Never retry blindly.                                                                                                                |
-| `TIMEOUT`              | A recording call was issued but the state never changed.                  | **The recording may still be running.** `get_recording_status` first; `cancel_recording` only if the user is fine losing it.                                                            |
+| `TIMEOUT`              | A recording transition or bounded Agent job exceeded its deadline.        | For recording, inspect `get_recording_status`. For a job, inspect its terminal status/error before deciding whether to retry.                                                         |
 
 Above all: after each change, look at what the tool returned and confirm it's
 what you meant. A tight, correct three-cut edit the user trusts beats a
