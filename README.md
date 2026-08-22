@@ -19,6 +19,8 @@ Recording, editing, and preview are free. An active Cadre Pro subscription is re
 
 Read the [Agent API overview](https://cadre.cam/docs/agent-api/overview.html), [complete tool reference](https://cadre.cam/docs/agent-api/tools.html), and [project-format reference](https://cadre.cam/docs/agent-api/project-format.html).
 
+Cadre also publishes a [reproducible Agent API handshake and 54-tool discovery record](https://cadre.cam/agent-api-evidence.html), including the exact signed app and plugin artifacts, sanitized raw data, the dated collector, and explicit limitations.
+
 ## Requirements
 
 - An Apple Silicon Mac running macOS 13 or later.
