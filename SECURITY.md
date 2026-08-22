@@ -2,11 +2,11 @@
 
 ## Supported version
 
-Security fixes are made against the latest version of the Cadre Claude plugin and the current public Cadre release. Before reporting an issue, update Cadre from [cadre.cam](https://cadre.cam/#download) and reproduce it with the current plugin archive.
+Security fixes are made against the latest public standalone Cadre Claude plugin and the current public Cadre release. These are versioned independently. Before reporting an issue, update Cadre from [cadre.cam](https://cadre.cam/#download), note both versions, and reproduce it with the matching public plugin source.
 
 ## Report a vulnerability privately
 
-Email [jack@cadre.cam](mailto:jack@cadre.cam) with:
+Use GitHub's **Security → Report a vulnerability** form for this repository, or email [jack@cadre.cam](mailto:jack@cadre.cam), with:
 
 - the affected Cadre and plugin versions;
 - the minimum steps needed to reproduce the issue;
