@@ -1,6 +1,6 @@
-# Cadre Video Editor for Claude
+# Cadre Video Editor Agent Skill and Claude Plugin
 
-[Cadre](https://cadre.cam/) is a local screen recorder and non-destructive video editor for Apple Silicon Macs. This repository is the public, standalone reference source for Cadre's token-free Claude plugin: one editing skill and a small stdio bridge to Cadre's loopback-only Model Context Protocol (MCP) server.
+[Cadre](https://cadre.cam/) is a local screen recorder and non-destructive video editor for Apple Silicon Macs. This repository is the public, standalone reference source for Cadre's cross-agent `cadre-editor` skill and token-free Claude plugin. The plugin pairs the editing skill with a small stdio bridge to Cadre's loopback-only Model Context Protocol (MCP) server.
 
 The app and this standalone plugin have independent release histories. Standalone v1.0.1 is the artifact pinned in Cadre 1.0.0-rc.18's 54-tool evidence; v1.0.2 updates the editing skill for Cadre 1.0.0-rc.20's asynchronous 57-tool Agent API. Use Cadre's live [version record](https://cadre.cam/CADRE.version) and [release notes](https://cadre.cam/release-notes.html) for the app currently published, the repository's [Releases](https://github.com/ArthurBrioche/cadre-video-editor-plugin/releases) for published standalone archives, and `.claude-plugin/plugin.json` inside an app-prepared archive for its bundled plugin version. Even when version numbers match, do not assume the app-bundled and standalone archives are byte-for-byte identical.
 
@@ -60,6 +60,22 @@ cd cadre-video-editor-plugin
 claude plugin validate . --strict
 claude --plugin-dir .
 ```
+
+### Cross-agent skill install
+
+The same `skills/cadre-editor/SKILL.md` follows the open Agent Skills convention and can be installed into Codex, Claude Code, Cursor and other supported local agents with the Skills CLI:
+
+```sh
+npx skills add ArthurBrioche/cadre-video-editor-plugin --skill cadre-editor
+```
+
+The installer auto-detects supported agents and lets you choose the destination. To inspect the discovered skill without installing it:
+
+```sh
+npx skills add ArthurBrioche/cadre-video-editor-plugin --list
+```
+
+This command installs the workflow instructions only. It does not install Cadre, grant macOS permissions, configure an MCP transport or bypass Cadre's export licence. Keep the Cadre app open and connect the local Agent API through the app's supported setup or the [Agent API overview](https://cadre.cam/docs/agent-api/overview.html). On 26 August 2026, Skills CLI discovery found exactly one public skill, `cadre-editor`, and an isolated Codex-targeted copy install completed successfully.
 
 ## Example requests
 
