@@ -19,7 +19,7 @@ Recording, editing, and preview are free. An active Cadre Pro subscription is re
 
 Read the [Agent API overview](https://cadre.cam/docs/agent-api/overview.html), [complete tool reference](https://cadre.cam/docs/agent-api/tools.html), and [project-format reference](https://cadre.cam/docs/agent-api/project-format.html).
 
-For the current build, Cadre publishes a [version-pinned rc.20 and standalone plugin v1.0.2 handshake and 57-tool discovery record](https://cadre.cam/agent-api-rc20-plugin-v1-0-2-evidence.html). It records initialization, ordered tool discovery, and one benign app-state read; the page explicitly excludes other tool execution, editing, caption generation, export, and model-quality claims.
+For the documented rc.20 compatibility baseline, Cadre publishes a [version-pinned rc.20 and standalone plugin v1.0.2 handshake and 57-tool discovery record](https://cadre.cam/agent-api-rc20-plugin-v1-0-2-evidence.html). It records initialization, ordered tool discovery, and one benign app-state read; the page explicitly excludes other tool execution, editing, caption generation, export, and model-quality claims.
 
 Cadre also publishes a [reproducible, version-pinned Agent API handshake and 54-tool discovery record](https://cadre.cam/agent-api-evidence.html), including the exact signed app and plugin artifacts, sanitized raw data, the dated collector, and explicit limitations.
 
