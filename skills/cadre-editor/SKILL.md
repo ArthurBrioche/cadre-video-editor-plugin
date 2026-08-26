@@ -39,8 +39,9 @@ tool. This skill is the _how_ — the sequences and judgement.
    it reverts the single last edit. Don't try to "fix" a bad cut by adding
    more cuts.
 6. **Recording is a real-world action. Own the clock; never delete a take.**
-   `start_recording` captures the user's actual screen — the countdown, display
-   highlight and controls bar make that visible. Recording and editing are free;
+   `start_recording` captures the user's actual screen. Floating controls remain
+   visible while capture is active. The countdown defaults on but can be disabled;
+   screen and area highlighting/dimming are conditional best-effort cues. Recording and editing are free;
    export is the licensed action. There is no duration parameter: _you_ sleep and call
    `stop_recording`. If you might not survive that long, don't start.
    `cancel_recording` **deletes the footage permanently** — only ever call it
@@ -199,7 +200,7 @@ you are driving the user's real screen.
 4. start_recording { source: { type: "screen", displayId: <screens[0].displayId> },
                      audioSource: "all", trackCursor: true }
                                      # returns only once state === "recording"
-                                     # the user sees a countdown + controls bar
+                                     # floating controls remain visible; countdown defaults on
 5. Sleep ~30 s in YOUR runtime. No duration parameter exists and Cadre will not
    stop itself. Poll get_recording_status if you want to watch elapsedMs.
 6. stop_recording                    # → { id, path, durationMs, editorOpen: true }

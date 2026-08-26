@@ -67,7 +67,7 @@ claude --plugin-dir .
 - “Inspect the open project, remove only measured dead air, and show me the resulting timeline before saving.”
 - “Add local captions and a simple title, check a composed frame for clipped text, then export a 1080p MP4.”
 
-Recording always uses Cadre's normal countdown, display highlight, and on-screen controls. The agent cannot make recording silent. Destructive cancellation is separately annotated so clients can ask before deleting a take.
+Agent-started recording remains visible through Cadre's floating controls. The countdown defaults on but can be disabled; screen and area highlighting/dimming are conditional best-effort cues. Destructive cancellation is separately annotated so clients can ask before deleting a take.
 
 ## Permissions and high-impact actions
 
@@ -75,7 +75,7 @@ Recording always uses Cadre's normal countdown, display highlight, and on-screen
 - Tool results can include a selected transcript, privacy-safe interaction context, local OCR, or a selected video frame. A cloud-backed assistant may send that context to its model provider.
 - Agent mutations use the same visible timeline, undo history, validation, and autosave as manual edits.
 - `cancel_recording` permanently deletes the active take. It is marked destructive and should run only after explicit confirmation.
-- Export writes an MP4 to a user-approved path and requires Cadre Pro.
+- Export writes an MP4 or MOV to a caller-selected absolute path that passes Cadre's validation, and requires Cadre Pro.
 
 ## Privacy and security boundary
 
@@ -86,7 +86,7 @@ Recording always uses Cadre's normal countdown, display highlight, and on-screen
 - A connected cloud-backed assistant can request selected transcript, interaction, or frame context and may send that context to its model provider. The provider's account settings and data policy apply.
 - Export uses the same licence gate as manual editing; the plugin does not bypass it.
 
-See Cadre's [privacy policy](https://cadre.cam/privacy.html) and [security model](https://cadre.cam/docs/agent-api/overview.html#4-security-posture) before connecting any assistant to sensitive footage.
+See Cadre's [privacy policy](https://cadre.cam/privacy.html), [desktop MCP threat model and reusable checklist](https://cadre.cam/guides/local-mcp-security.html), and [Agent API security posture](https://cadre.cam/docs/agent-api/overview.html#4-security-posture) before connecting any assistant to sensitive footage.
 
 ## Support and responsible disclosure
 
