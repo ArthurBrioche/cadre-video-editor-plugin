@@ -534,8 +534,42 @@ Export notes:
 
   `set_style` shallow-merges, so every nested object shown above is complete.
 
-- **Background music**: `set_music { filePath, volume: 0.18 }`; clear it with
-  `set_music { filePath: null }`.
+- **Intro fullscreen, then demo with a corner pip.** When someone wants to open
+  on their face and then cut to the product, that is one call, not two.
+  `add_camera_layout { startTime: 0, endTime: 30000, mode: "fullscreen" }` makes
+  the first 30 seconds the camera-as-content layout — screen, cursor, click
+  ripples and keyboard pills all suppressed — and then stops. Do not add a
+  second segment to "go back to the corner": the stretch after a segment already
+  *is* the project's global `style.webcam` layout, and the camera flies out to
+  it on its own. A second segment restating the global layout buys nothing and
+  coalesces away. Add one only when the demo needs a *different* corner or size
+  than the user's global style, in which case give it `mode: "default"` with an
+  explicit `position`. Read `timeline.layoutSegments` from `get_timeline` first:
+  segments may not overlap (a disabled one still owns its span), and
+  `add_camera_layout` will refuse a conflicting range naming the segment in the
+  way rather than nudging it. Times are recording time, like `add_zoom`.
+
+- **Background music**: Cadre ships five instrumental background tracks, so you
+  never need the user to supply a file. Pass exactly one source —
+  `libraryTrackId` for a built-in track or `filePath` for the user's own audio:
+
+  ```json
+  set_music { "libraryTrackId": "library-the-steady-hand", "volume": 0.18 }
+  ```
+
+  | `libraryTrackId`                | Title                 | Length |
+  | ------------------------------- | --------------------- | ------ |
+  | `library-project-roadmap`       | Project Roadmap       | ~2:30  |
+  | `library-architecture-of-trust` | Architecture of Trust | ~2:32  |
+  | `library-seven-oclock-light`    | Seven O'Clock Light   | ~2:56  |
+  | `library-noon-in-clerkenwell`   | Noon in Clerkenwell   | ~2:58  |
+  | `library-the-steady-hand`       | The Steady Hand       | ~1:42  |
+
+  All five are instrumental beds meant to sit under narration; pick on length
+  first (a track at least as long as the edit avoids a loop seam) and, absent
+  any other steer, `library-the-steady-hand` for a short demo. The editorial
+  restraint rule still applies — add music only when the user asks for it or
+  the brief clearly calls for it. Clear music with `set_music { filePath: null }`.
 - **Audio balance**: `set_audio_gains { systemGain, micGain }` (0–4). Turn the
   system audio down under a voiceover, for example.
 - **Point at a moment** for the user: there's no playhead tool in v1, but you
