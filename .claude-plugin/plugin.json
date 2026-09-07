@@ -2,8 +2,8 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "cadre",
   "displayName": "Cadre Video Editor",
-  "version": "1.0.4",
-  "description": "Record and edit Cadre screen recordings through its local MCP API.",
+  "version": "1.1.0",
+  "description": "Record, edit, and add motion graphics to Cadre videos through its local MCP API.",
   "author": {
     "name": "Cadre",
     "email": "jack@cadre.cam",

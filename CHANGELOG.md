@@ -4,6 +4,15 @@ All notable changes to the standalone Cadre Video Editor plugin (this
 repository) are documented here. The app and this plugin have independent
 release histories — see `README.md` for how the two are versioned.
 
+## [1.1.0] - 2026-09-07
+
+### Added
+
+- Adds the `cadre-motion-graphics` skill, including SVG recipes, layout
+  guidance, and advanced animation guidance for native and external-alpha
+  motion graphics.
+- Documents Cadre 1.1.0's 62-tool Agent API surface.
+
 ## [1.0.4] - 2026-09-03
 
 ### Documentation
