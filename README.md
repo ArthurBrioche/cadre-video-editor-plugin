@@ -1,5 +1,7 @@
 # Cadre Video Editor Agent Skill and Claude Plugin
 
+Plugin v1.2.0 adds guidance for Cadre 1.2.0 composition layouts, speaker reframing and independently timed supporting text. The bridge is unchanged. New composition fields require Cadre 1.2.0 or later; the skills check the connected app version and retain the existing editing workflow for earlier apps.
+
 [Cadre](https://cadre.cam/) is a local screen recorder and non-destructive video editor for Apple Silicon Macs. This repository is the public, standalone reference source for Cadre's cross-agent `cadre-editor` and `cadre-motion-graphics` skills and token-free Claude plugin. The plugin pairs both skills with a small stdio bridge to Cadre's loopback-only Model Context Protocol (MCP) server.
 
 The app and this standalone plugin have independent release histories. Standalone v1.0.1 is the artifact pinned in Cadre 1.0.0-rc.18's 54-tool evidence; v1.1.0 adds the motion-graphics skill for Cadre 1.1.0's 62-tool Agent API. Use Cadre's live [version record](https://cadre.cam/CADRE.version) and [release notes](https://cadre.cam/release-notes.html) for the app currently published, the repository's [Releases](https://github.com/ArthurBrioche/cadre-video-editor-plugin/releases) for published standalone archives, and `.claude-plugin/plugin.json` inside an app-prepared archive for its bundled plugin version. Even when version numbers match, do not assume the app-bundled and standalone archives are byte-for-byte identical.

@@ -4,6 +4,14 @@ All notable changes to the standalone Cadre Video Editor plugin (this
 repository) are documented here. The app and this plugin have independent
 release histories — see `README.md` for how the two are versioned.
 
+## [1.2.0] - 2026-09-13
+
+### Added
+
+- Guidance for Cadre 1.2.0 arrangements, speaker reframing and independently timed supporting text.
+- A version check before using composition fields, with the existing workflow retained for earlier apps.
+- The local MCP bridge and connection permissions are unchanged.
+
 ## [1.1.0] - 2026-09-07
 
 ### Added

@@ -23,6 +23,26 @@ tool. This skill is the _how_ — the sequences and judgement.
 
 ## Golden rules
 
+The composition controls below require Cadre 1.2.0 or later. Check `get_app_state`
+and the connected tool schemas first; on older versions, use the existing camera
+layout modes and canvas overlays without sending composition fields.
+
+For shared speaker-and-screen compositions, inspect `style.frame.layout` and
+`timeline.layoutSegments` first. Set the whole-video arrangement with
+`set_style(frame, { layout: { mode: "split", speakerSide: "left", speakerSize: 0.28,
+gap: 24, supportHeight: 0.18 } })`. Preserve existing timed camera positions and
+modes: a layout segment overrides the global arrangement during its span, and
+gaps restore it. A segment may carry its own complete `layout` object; clear
+that override with `update_camera_layout` and `layout: null`.
+
+Use `add_text_overlay` with `region: "support"` for independently timed supporting
+text. Its section must be enabled in the active layout. Text wraps and clips to
+the section, so verify long copy in `get_edited_frame`, including portrait output.
+Detach with `update_overlay` and `region: null`. Ordinary titles and logos remain
+canvas overlays. Adjust speaker crop using `set_style(webcam, { reframe: { x: 0.5,
+y: 0.5, zoom: 1.2 } })`; this crop is global while camera mode and position remain
+time-based. Use `map_time` for user-quoted timestamps after cuts or speed edits.
+
 1. **Inspect before you touch.** Always `get_app_state` → (`open_project` if
    needed) → `get_timeline` before any mutation. Never edit blind.
 2. **Verify after every mutation.** Each edit tool returns the post-mutation
