@@ -1,0 +1,20 @@
+# cadre-video-editor-plugin
+
+> A standalone Claude plugin and cross-agent skills for Cadre, a local screen recorder and non-destructive video editor for Apple Silicon Macs, connected through a small stdio bridge to Cadre's loopback-only MCP server.
+
+Requires an Apple Silicon Mac with macOS 13+, the signed Cadre app open locally, a local Claude session, and Node.js 22, 24 or 26. Install via Cadre's Preferences → AI Editing (app-bundled archive), a standalone plugin zip from this repository's Releases, or the Skills CLI for Codex, Claude Code, Cursor and other local agents. The repo provides the cadre-editor and cadre-motion-graphics skills plus an Agent API overview, tool reference, and project-format reference; recording and editing are free, export requires Cadre Pro.
+
+## Docs
+
+- [cadre-video-editor-plugin README](https://raw.githubusercontent.com/ArthurBrioche/cadre-video-editor-plugin/main/README.md): Overview of the cadre-editor and cadre-motion-graphics skills, the Claude plugin, the stdio bridge, and standalone versus app-bundled versions.
+- [What Claude can do](https://github.com/ArthurBrioche/cadre-video-editor-plugin/blob/main/README.md#what-claude-can-do): What a connected Claude session can do: recording, timeline inspection, non-destructive edits, verification, saving, and MP4 export.
+- [Requirements](https://github.com/ArthurBrioche/cadre-video-editor-plugin/blob/main/README.md#requirements): Hardware, macOS, Cadre app, Claude session, and Node.js 22, 24 or 26 requirements, plus why remote sessions cannot connect.
+- [Install](https://github.com/ArthurBrioche/cadre-video-editor-plugin/blob/main/README.md#install): App-bundled plugin setup steps and standalone installation from Releases or repository source for Claude Desktop, Cowork, and Claude Code.
+- [Example requests](https://github.com/ArthurBrioche/cadre-video-editor-plugin/blob/main/README.md#example-requests): Sample prompts for recording, trimming, captions, titles, and export, with notes on visible recording controls and cancellation.
+- [Permissions and high-impact actions](https://github.com/ArthurBrioche/cadre-video-editor-plugin/blob/main/README.md#permissions-and-high-impact-actions): MacOS permissions, cloud context exposure, destructive cancel_recording behavior, export path validation, and the Cadre Pro requirement.
+- [Privacy and security boundary](https://github.com/ArthurBrioche/cadre-video-editor-plugin/blob/main/README.md#privacy-and-security-boundary): How Cadre secures the Agent API: localhost binding, token rotation, local data storage, and cloud assistant data policy.
+- [Support and responsible disclosure](https://github.com/ArthurBrioche/cadre-video-editor-plugin/blob/main/README.md#support-and-responsible-disclosure): Where to get setup help and how to report security issues privately via SECURITY.md.
+
+## Optional
+
+- [Changelog](https://raw.githubusercontent.com/ArthurBrioche/cadre-video-editor-plugin/main/CHANGELOG.md): All notable changes to the standalone Cadre Video Editor plugin (this repository) are documented here.
